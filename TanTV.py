@@ -6,8 +6,7 @@ from utils import *; logstart('TanTV')
 
 PORT = 7133
 
-channels = json.load(open('channels.json'))
-
+channels = dict()
 channel_rr = Sdict(int)
 
 class TanTVHandler(http.server.BaseHTTPRequestHandler):
@@ -51,12 +50,16 @@ class TanTVHandler(http.server.BaseHTTPRequestHandler):
 				self.wfile.write(chunk)
 		except OSError: pass
 
-def main():
+@apmain
+@aparg('-c', metavar='file.json', help='Channel list', type=argparse.FileType('r'), default='channels.json')
+def main(cargs):
+	global channels
+	channels = json.load(cargs.c)
 	s = http.server.ThreadingHTTPServer(('', PORT), TanTVHandler)
 	try: s.serve_forever()
 	except KeyboardInterrupt as ex: exit(ex)
 
-if (__name__ == '__main__'): logstarted(); exit(main())
+if (__name__ == '__main__'): exit(main())
 else: logimported()
 
 # by Sdore, 2020
