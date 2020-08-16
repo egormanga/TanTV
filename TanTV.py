@@ -39,16 +39,22 @@ class TanTVHandler(http.server.BaseHTTPRequestHandler):
 			channel_rr[ch-1] = 0
 			return
 
-		self.send_response(200)
+		###
+		#self.send_response(200)
+		#
+		#for k, v in r.headers.items():
+		#	self.send_header(k, v)
+		#self.end_headers()
+		#
+		#try:
+		#	for chunk in r:
+		#		self.wfile.write(chunk)
+		#except OSError: pass
+		###
 
-		for k, v in r.headers.items():
-			self.send_header(k, v)
+		self.send_response(302)
+		self.send_header('Location', r.url)
 		self.end_headers()
-
-		try:
-			for chunk in r:
-				self.wfile.write(chunk)
-		except OSError: pass
 
 @apmain
 @aparg('-c', metavar='file.json', help='Channel list', type=argparse.FileType('r'), default='channels.json')
