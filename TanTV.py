@@ -54,7 +54,7 @@ class TanTVHandler(http.server.BaseHTTPRequestHandler):
 @aparg('-c', metavar='file.json', help='Channel list', type=argparse.FileType('r'), default='channels.json')
 def main(cargs):
 	global channels
-	channels = json.load(cargs.c)
+	channels = {k: v for k, v in json.load(cargs.c).items() if any(v)}
 	s = http.server.ThreadingHTTPServer(('', PORT), TanTVHandler)
 	try: s.serve_forever()
 	except KeyboardInterrupt as ex: exit(ex)
