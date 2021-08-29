@@ -1,4 +1,4 @@
-channels.json
+channels.yml
 **.db
 **.log
 **.old
